@@ -1,0 +1,23 @@
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+.ipynb_checkpoints/
+
+.idea/
+.vscode/
+
+uci data/
+knowledge_notes.md
+notebooks/customer_segementation_V1.ipynb
+
+~$*.xlsx
+.DS_Store
+Thumbs.db
