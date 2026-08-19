@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "customer-intelligence-system"
 version = "0.1.0"
 description = "An end-to-end customer intelligence system covering segmentation, churn prediction, deployment, and GenAI-assisted decision support."
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
     "pandas>=2.0",
     "numpy>=1.26",

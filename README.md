@@ -4,10 +4,10 @@
 
 | Stage | Purpose | Status |
 |---|---|---|
-| 1. Customer segmentation | Describe current customer behaviour | ✅ Complete |
-| 2. Churn prediction | Predict future customer inactivity | 🔄 Next |
-| 3. Deployment | Serve segments and risk predictions | ⏳ Planned |
-| 4. GenAI assistant | Explain results and support decisions | ⏳ Planned |
+| 1. Customer segmentation | Describe current customer behaviour |  Complete |
+| 2. Churn prediction | Predict future customer inactivity |  Next |
+| 3. Deployment | Serve segments and risk predictions |  Planned |
+| 4. GenAI assistant | Explain results and support decisions |  Planned |
 
 ```mermaid
 flowchart LR
@@ -18,6 +18,34 @@ flowchart LR
     D --> E
     E --> F[Stage 4: GenAI Assistant]
 ```
+
+## Repository Structure
+
+```text
+customer_intelligence_system/
+├── customer_intelligence/
+│   ├── data_prep.py                 # Shared transaction preparation
+│   └── segmentation/
+│       ├── rfm.py                   # Cancellation reconciliation and RFM
+│       ├── clustering.py            # Scaling, K-Means and DBSCAN
+│       └── viz.py                   # Shared visualization settings
+├── notebooks/
+│   └── 01_customer_segmentation.ipynb
+├── tests/
+│   └── segmentation/                # Cleaning and RFM unit tests
+├── data/
+│   └── processed/
+│       └── customer_segments.csv     # Stage 1 output for downstream stages
+├── scripts/
+│   ├── build_segmentation_table.py   # Rebuild the segmentation output
+│   └── export_readme_images.py
+├── images/                           # Figures used in this README
+├── pyproject.toml                    # Package metadata and dependencies
+├── requirements.txt                  # Reproducible notebook environment
+└── README.md
+```
+
+The root `customer_intelligence` package is intentionally broader than segmentation. Future stages will add `churn`, `serving`, and `genai` modules alongside the completed segmentation package, while reusing the shared preparation layer. Planned folders are added only when working code exists, so the repository always reflects implemented functionality.
 
 ## Stage 1 — Customer Segmentation
 
@@ -163,7 +191,11 @@ Download `online_retail_II.xlsx` from the [UCI dataset page](https://archive.ics
 uci data/online_retail_II.xlsx
 ```
 
-### 3. Run the notebook
+### 3. Run the segmentation pipeline
+
+```bash
+python scripts/build_segmentation_table.py
+```
 
 Open [Stage 1: Customer Segmentation](notebooks/01_customer_segmentation.ipynb) and run all cells from top to bottom. The cancellation-matching comparisons process the complete transaction history and may take several minutes.
 
