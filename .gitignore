@@ -15,7 +15,8 @@ htmlcov/
 .vscode/
 
 uci data/
-knowledge_notes.md
+knowledge_segmentation_notes.md
+knowledge_churn_notes.md
 notebooks/customer_segementation_V1.ipynb
 
 ~$*.xlsx
