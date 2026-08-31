@@ -11,6 +11,10 @@ htmlcov/
 
 .ipynb_checkpoints/
 
+# Local serving databases are runtime state, not source code.
+data/serving/*.db
+data/serving/*.db-*
+
 .idea/
 .vscode/
 
