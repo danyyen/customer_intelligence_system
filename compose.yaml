@@ -1,0 +1,56 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: customer_intelligence
+      POSTGRES_USER: customer_app
+      POSTGRES_PASSWORD: local_development_only
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U customer_app -d customer_intelligence"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  bootstrap:
+    build:
+      context: .
+    environment:
+      APP_ENV: local-docker
+      DATABASE_URL: postgresql://customer_app:local_development_only@database:5432/customer_intelligence
+    command: ["python", "-m", "scripts.load_decisions_to_database"]
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: .
+    environment:
+      APP_ENV: local-docker
+      PORT: "8000"
+      CHURN_MODEL_PATH: /app/models/churn_logistic_v1.joblib
+      DATABASE_URL: postgresql://customer_app:local_development_only@database:5432/customer_intelligence
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=4)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

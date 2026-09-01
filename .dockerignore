@@ -1,0 +1,27 @@
+.git
+.github
+.venv
+venv
+env
+__pycache__
+*.py[cod]
+.pytest_cache
+.idea
+.vscode
+.claude
+.codex
+.agents
+.ipynb_checkpoints
+notebooks
+tests
+images
+docs
+uci data
+knowledge_segmentation_notes.md
+knowledge_churn_notes.md
+data/serving
+data/processed/*
+!data/processed/latest_customer_decisions.csv
+*.xlsx
+*.rtf
+*.log
