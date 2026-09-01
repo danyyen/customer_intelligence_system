@@ -1,0 +1,4 @@
+# Everything required to reproduce notebooks and run automated quality checks.
+-r requirements.txt
+
+pytest==9.1.1

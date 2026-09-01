@@ -1,5 +1,7 @@
 # Customer Intelligence System
 
+[![CI](https://github.com/danyyen/customer_intelligence_system/actions/workflows/ci.yml/badge.svg)](https://github.com/danyyen/customer_intelligence_system/actions/workflows/ci.yml)
+
 ## Project Roadmap
 
 | Stage | Purpose | Status |
