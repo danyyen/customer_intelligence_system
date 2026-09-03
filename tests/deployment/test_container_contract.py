@@ -41,3 +41,24 @@ def test_docker_context_excludes_raw_and_development_data():
     assert "tests" in ignored
     assert ".venv" in ignored
     assert "!data/processed/latest_customer_decisions.csv" in ignored
+
+
+def test_render_blueprint_connects_api_to_private_postgres():
+    blueprint = yaml.safe_load((ROOT / "render.yaml").read_text(encoding="utf-8"))
+    database = blueprint["databases"][0]
+    service = blueprint["services"][0]
+
+    assert database["name"] == "customer-intelligence-db"
+    assert database["ipAllowList"] == []
+    assert service["runtime"] == "docker"
+    assert service["healthCheckPath"] == "/health/ready"
+    assert service["autoDeployTrigger"] == "checksPass"
+
+    database_url = next(
+        item for item in service["envVars"] if item["key"] == "DATABASE_URL"
+    )
+    assert database_url["fromDatabase"] == {
+        "name": "customer-intelligence-db",
+        "property": "connectionString",
+    }
+    assert "scripts.load_decisions_to_database" in service["dockerCommand"]

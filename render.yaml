@@ -1,0 +1,40 @@
+# Render Blueprint: the cloud equivalent of the local compose.yaml.
+# It defines infrastructure, while application behavior remains in Python.
+databases:
+  - name: customer-intelligence-db
+    databaseName: customer_intelligence
+    user: customer_app
+    plan: free
+    region: ohio
+    # The portfolio API uses Render's private connection string. Disabling
+    # public database access reduces the number of ways it can be attacked.
+    ipAllowList: []
+
+services:
+  - type: web
+    name: customer-intelligence-api
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./Dockerfile
+
+    # Free Render services cannot use preDeployCommand. On each cold start,
+    # publish the verified snapshot transactionally, then start FastAPI.
+    # A paid production service should move the first command to
+    # preDeployCommand and let the Dockerfile CMD start the API by itself.
+    dockerCommand: >-
+      sh -c "python -m scripts.load_decisions_to_database &&
+      python -m customer_intelligence.api.server"
+
+    healthCheckPath: /health/ready
+    autoDeployTrigger: checksPass
+
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: CHURN_MODEL_PATH
+        value: /app/models/churn_logistic_v1.joblib
+      - key: DATABASE_URL
+        fromDatabase:
+          name: customer-intelligence-db
+          property: connectionString
