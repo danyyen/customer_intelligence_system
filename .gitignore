@@ -21,6 +21,7 @@ data/serving/*.db-*
 uci data/
 knowledge_segmentation_notes.md
 knowledge_churn_notes.md
+knowledge_deployment_notes.md
 notebooks/customer_segementation_V1.ipynb
 
 ~$*.xlsx

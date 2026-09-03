@@ -19,6 +19,7 @@ docs
 uci data
 knowledge_segmentation_notes.md
 knowledge_churn_notes.md
+knowledge_deployment_notes.md
 data/serving
 data/processed/*
 !data/processed/latest_customer_decisions.csv
