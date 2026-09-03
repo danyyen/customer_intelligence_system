@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Customer retention and value-protection decision dashboard">
+  <title>Customer Intelligence</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <nav>
+      <span class="brand">Customer Intelligence</span>
+      <a href="/docs">API documentation</a>
+    </nav>
+    <div class="hero-copy">
+      <p class="eyebrow">Retention decision support</p>
+      <h1>Turn churn risk into a clear customer action.</h1>
+      <p>Search an anonymized customer record, choose a campaign objective, and see who to contact and why.</p>
+      <div id="service-status" class="status">Checking service…</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel search-panel" aria-labelledby="lookup-title">
+      <div>
+        <p class="eyebrow">Customer lookup</p>
+        <h2 id="lookup-title">Find a customer decision</h2>
+        <p class="muted">Customer IDs are anonymized identifiers from the portfolio dataset.</p>
+      </div>
+      <form id="lookup-form">
+        <label for="customer-id">Customer ID</label>
+        <div class="form-row">
+          <input id="customer-id" name="customer-id" inputmode="numeric" placeholder="e.g. 12352" required>
+          <select id="strategy" name="strategy" aria-label="Campaign strategy">
+            <option value="churn_prevention">Churn prevention</option>
+            <option value="value_protection">Value protection</option>
+          </select>
+          <button type="submit">View decision</button>
+        </div>
+        <p id="lookup-message" class="message" role="status"></p>
+      </form>
+    </section>
+
+    <section id="customer-result" class="result" hidden aria-live="polite">
+      <div class="result-heading">
+        <div>
+          <p class="eyebrow">Recommended decision</p>
+          <h2>Customer <span id="result-id"></span></h2>
+        </div>
+        <span id="priority-band" class="priority-pill"></span>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric-card">
+          <span>Churn probability</span>
+          <strong id="churn-probability"></strong>
+          <small id="threshold-context"></small>
+        </article>
+        <article class="metric-card">
+          <span>Customer segment</span>
+          <strong id="segment"></strong>
+          <small id="frequency"></small>
+        </article>
+        <article class="metric-card">
+          <span>Historical customer value</span>
+          <strong id="customer-value"></strong>
+          <small>Observed revenue used for prioritization</small>
+        </article>
+        <article class="metric-card accent-card">
+          <span>Value-at-risk score</span>
+          <strong id="value-at-risk"></strong>
+          <small id="value-rank"></small>
+        </article>
+      </div>
+
+      <article class="action-card">
+        <span>Recommended action</span>
+        <p id="recommended-action"></p>
+      </article>
+      <p id="decision-meta" class="meta"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="queue-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Campaign queue</p>
+          <h2 id="queue-title">Highest-priority customers</h2>
+        </div>
+        <select id="queue-strategy" aria-label="Queue strategy">
+          <option value="churn_prevention">Rank by churn probability</option>
+          <option value="value_protection">Rank by value at risk</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Customer</th><th>Segment</th><th>Churn risk</th><th>Value</th><th>Priority</th></tr>
+          </thead>
+          <tbody id="queue-body"></tbody>
+        </table>
+      </div>
+      <p id="queue-message" class="message" role="status"></p>
+    </section>
+
+    <section class="explanation">
+      <div><strong>Churn prevention</strong><p>Ranks customers by their likelihood of making no purchase in the next 90 days.</p></div>
+      <div><strong>Value protection</strong><p>Combines churn probability with capped historical value so one extreme customer cannot dominate.</p></div>
+      <div><strong>Decision support</strong><p>The model prioritizes outreach; it does not automatically contact customers or prove why they may leave.</p></div>
+    </section>
+  </main>
+
+  <footer><span id="model-summary">Loading model information…</span></footer>
+</body>
+</html>

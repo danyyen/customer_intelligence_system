@@ -94,6 +94,17 @@ def test_liveness_does_not_depend_on_model(api_client):
     assert client.get("/health/live").json() == {"status": "alive"}
 
 
+def test_stakeholder_dashboard_and_assets_are_served(api_client):
+    client, _, _ = api_client
+    dashboard = client.get("/")
+    assert dashboard.status_code == 200
+    assert "Customer Intelligence" in dashboard.text
+    assert "/static/app.js" in dashboard.text
+    javascript = client.get("/static/app.js")
+    assert javascript.status_code == 200
+    assert "/v1/customers" in javascript.text
+
+
 def test_readiness_confirms_loaded_model(api_client):
     client, _, _ = api_client
     response = client.get("/health/ready")

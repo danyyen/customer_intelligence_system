@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Request, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from customer_intelligence.churn import ChurnModelBundle, load_churn_bundle
 
@@ -54,6 +57,15 @@ app = FastAPI(
     ),
     lifespan=lifespan,
 )
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.get("/", include_in_schema=False)
+def dashboard() -> FileResponse:
+    """Serve the stakeholder dashboard from the same origin as the API."""
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 def require_bundle(request: Request) -> ChurnModelBundle:
