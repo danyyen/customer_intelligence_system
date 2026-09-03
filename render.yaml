@@ -22,9 +22,9 @@ services:
     # publish the verified snapshot transactionally, then start FastAPI.
     # A paid production service should move the first command to
     # preDeployCommand and let the Dockerfile CMD start the API by itself.
-    dockerCommand: >-
-      sh -c "python -m scripts.load_decisions_to_database &&
-      python -m customer_intelligence.api.server"
+    # A Python launcher avoids platform-specific shell parsing of chained
+    # commands. It refuses to start the API if database publication fails.
+    dockerCommand: python -m customer_intelligence.api.cloud_start
 
     healthCheckPath: /health/ready
     autoDeployTrigger: checksPass

@@ -34,10 +34,11 @@ https://YOUR-SERVICE.onrender.com/v1/customers?limit=5
 ## Why startup loads the decision snapshot
 
 Render's `preDeployCommand` is available only to paid services. This portfolio
-starts on the free plan, so its Docker command first publishes the bundled,
-verified customer-decision snapshot and then starts FastAPI. Publication is a
-single database transaction: clients see a complete snapshot, never half of
-one.
+starts on the free plan, so `customer_intelligence.api.cloud_start` first
+publishes the bundled, verified customer-decision snapshot and then starts
+FastAPI. A Python launcher is used instead of shell command chaining so startup
+has the same behavior across platforms. Publication is a single database
+transaction: clients see a complete snapshot, never half of one.
 
 This is an intentional free-tier compromise. It is suitable here because there
 is one small API instance and anonymized public portfolio data. In a real

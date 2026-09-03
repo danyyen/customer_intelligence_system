@@ -61,4 +61,7 @@ def test_render_blueprint_connects_api_to_private_postgres():
         "name": "customer-intelligence-db",
         "property": "connectionString",
     }
-    assert "scripts.load_decisions_to_database" in service["dockerCommand"]
+    assert service["dockerCommand"] == (
+        "python -m customer_intelligence.api.cloud_start"
+    )
+    assert (ROOT / "customer_intelligence/api/cloud_start.py").is_file()
