@@ -28,6 +28,7 @@ nav a { color: #dbeaf3; text-decoration: none; }
 .status { display: inline-block; margin-top: 1.2rem; padding: .45rem .8rem; border: 1px solid #ffffff40; border-radius: 999px; font-size: .84rem; }
 .status-ready { background: #16766d; }
 .status-error { background: var(--red); }
+.status-waking { background: var(--orange); }
 main { width: min(1180px, 90vw); margin: -2rem auto 4rem; }
 .panel, .result { margin-bottom: 1.5rem; padding: clamp(1.3rem, 3vw, 2.25rem); background: var(--white); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 12px 35px #1d34420c; }
 .search-panel { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(420px, 1.2fr); gap: 2rem; align-items: end; }

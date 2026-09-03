@@ -116,21 +116,54 @@ async function loadQueue() {
   }
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function setServiceStatus(text, state) {
+  const el = byId("service-status");
+  el.textContent = text;
+  el.classList.remove("status-ready", "status-error", "status-waking");
+  if (state) el.classList.add(`status-${state}`);
+}
+
+// The free Render instance sleeps after ~15 minutes idle and can take up to a
+// minute to answer the first request. Poll readiness with a fixed backoff
+// instead of failing on the first cold-start error.
+async function waitForReady(attempts = 8, delayMs = 5000) {
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await getJSON("/health/ready");
+    } catch (error) {
+      if (attempt === attempts) throw error;
+      setServiceStatus(
+        "Service is waking up — the free host can take up to a minute on the first visit…",
+        "waking",
+      );
+      await sleep(delayMs);
+    }
+  }
+}
+
 async function initialize() {
+  setServiceStatus("Connecting to the service…", "waking");
+  let health;
   try {
-    const [health, model] = await Promise.all([
-      getJSON("/health/ready"),
-      getJSON("/v1/model"),
-    ]);
-    setText("service-status", `Service ready · ${health.model_version}`);
-    byId("service-status").classList.add("status-ready");
+    health = await waitForReady();
+  } catch (error) {
+    setServiceStatus(
+      "Service is temporarily unavailable. Refresh the page to try again.",
+      "error",
+    );
+    return;
+  }
+  setServiceStatus(`Service ready · ${health.model_version}`, "ready");
+  try {
+    const model = await getJSON("/v1/model");
     setText(
       "model-summary",
       `Model ${model.model_version} · ${model.observation_window_days}-day history · ${model.prediction_horizon_days}-day prediction horizon`,
     );
   } catch (error) {
-    setText("service-status", "Service is temporarily unavailable");
-    byId("service-status").classList.add("status-error");
+    setText("model-summary", "Model information is unavailable.");
   }
   await loadQueue();
 }

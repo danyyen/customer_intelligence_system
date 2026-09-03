@@ -28,6 +28,12 @@ A churn probability alone does not tell a business what to do. This system conne
 
 The deployed dashboard lets a stakeholder search an anonymized customer, compare churn-prevention and value-protection strategies, and retrieve a recommended action without using Python.
 
+![Customer lookup and recommended decision](images/dashboard_lookup.png)
+
+![Campaign queue ranked by churn risk](images/dashboard_queue.png)
+
+> Hosted on Render's free tier: the first request after ~15 minutes idle can take up to a minute while the instance wakes.
+
 ## Results at a glance
 
 ### Segmentation
