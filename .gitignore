@@ -19,8 +19,12 @@ data/serving/*.db-*
 .vscode/
 
 uci data/
-# Personal study and interview notes. Public project documentation lives in docs/.
-knowledge_*_notes.md
+knowledge_segmentation_notes.md
+knowledge_churn_notes.md
+knowledge_deployment_notes.md
+knowledge_index_notes.md
+knowledge_codebase_notes.md
+knowledge_learning_notes.md
 notebooks/customer_segementation_V1.ipynb
 
 ~$*.xlsx
