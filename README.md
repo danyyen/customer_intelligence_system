@@ -15,6 +15,19 @@ It is designed around a practical business question:
 
 > If a retention team cannot contact everyone, which customers should it contact first, why, and with what action?
 
+## Decision framework
+
+This project is designed around a constrained retention decision, not simply a churn prediction task.
+
+| Question | Business answer |
+|---|---|
+| **What decision are we making?** | With limited campaign capacity, decide which customers to contact first and whether the priority is preventing likely churn or protecting higher-value relationships. |
+| **What does success look like?** | A smaller, better-targeted campaign list that concentrates likely churners and gives the retention team a clear action for each customer group. At 20% campaign capacity, the holdout queue achieved 70.9% precision, 65% PR-AUC and 1.80x lift. |
+| **Which metrics matter?** | Churn risk, precision/recall/lift at campaign capacity, customer value exposure, recency, frequency, and monetary value. |
+| **Which customers matter?** | Champions, exceptional high-value, at-risk established, recent developing, and lapsed low-value customers require different treatment. |
+| **What timeframe matters?** | The previous 180 days describe customer behaviour; the system predicts inactivity during the following 90 days. |
+| **What action follows?** | Prioritize the campaign queue, choose churn-prevention or value-protection strategy, and apply lifecycle-appropriate retention treatment. |
+
 ## Business value
 
 A churn probability alone does not tell a business what to do. This system connects four decisions:
