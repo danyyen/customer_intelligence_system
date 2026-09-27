@@ -70,6 +70,8 @@ The selected logistic-regression model was evaluated on an untouched later-month
 | Precision at 20% capacity | **70.9%** | About 71 of every 100 contacted customers actually churned in the holdout |
 | Recall at 20% capacity | **36.1%** | That campaign captured about 36% of all churners |
 
+![September holdout results: PR-AUC 0.647, ROC-AUC 0.759; at 20% campaign capacity, precision 70.9%, recall 36.1%, and lift 1.80 times the population churn rate.](images/churn_holdout_results.png)
+
 A shallow gradient-boosting challenger produced slightly higher one-month PR-AUC (0.655 versus 0.647), but logistic regression remained the champion because it had stronger repeated temporal validation, slightly better top-20% lift, a smaller campaign footprint, and clearer governance. This is a documented champion-challenger decision, not a claim that the more complex model is poor.
 
 ### Decision strategy
