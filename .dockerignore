@@ -8,9 +8,6 @@ __pycache__
 .pytest_cache
 .idea
 .vscode
-.claude
-.codex
-.agents
 .ipynb_checkpoints
 notebooks
 tests
